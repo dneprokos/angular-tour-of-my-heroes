@@ -1,6 +1,8 @@
 # AngularTourOfHeroes
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.12.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.12 and it based on Angular tutorial: https://angular.io/tutorial/toh-pt6 
+
+![Main page Image](/images/MainPage.png)
 
 ## Development server
 
