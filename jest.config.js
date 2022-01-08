@@ -12,7 +12,7 @@ module.exports = {
           // }
         // }
     // },
-    setupFilesAfterEnv: ["jest-allure/dist/setup"],
+    setupFilesAfterEnv: ['./jest.setup.js', "jest-allure/dist/setup"],
     testRunner: 'jest-jasmine2',
     testEnvironment: './test-environment.ts'
 };

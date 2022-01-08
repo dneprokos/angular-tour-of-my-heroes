@@ -1,3 +1,4 @@
+import { PageUrls } from "../../../framework/constants/page-uri-const";
 import { Page } from "playwright";
 import { PageWithNavMenuAndMessages } from "../_common-page";
 import { HeroSearchFragment } from "./fragments/hero-search-fragment";
@@ -9,12 +10,18 @@ export class DashboardPage extends PageWithNavMenuAndMessages {
 
     constructor(page: Page) {
         super(page);
+
+        //TODO: Think about lazy initialization
         this.topHeroes = new TopHeroesFragment(page);
         this.heroSearch = new HeroSearchFragment(page);
     }
 
     async open(): Promise<DashboardPage> {
-        await this.navigateUrl(TestSettings.BaseUrl);
+        await Promise.all([
+            this.navigateUrl(TestSettings.BaseUrl),
+            this.page.waitForNavigation({url: PageUrls.dashboardPage})
+        ]);
+        
         return await new DashboardPage(this.page);
     }
 }

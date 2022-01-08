@@ -1,21 +1,18 @@
-import { HeroesPage } from "../framework/pages/heroes";
+import { PageUrls } from "../framework/constants/page-uri-const";
+import { Page } from "playwright";
 import { DetailsPage } from "../framework/pages/details";
-import { closeBrowser, runBrowserAndOpenOnDetailsPageWithFirstHero } from "../framework/utils/setup-teardown-helper";
+import { closeBrowser, openBrowser, runBrowserAndOpenOnDetailsPageWithFirstHero } from "../framework/utils/setup-teardown-helper";
+import { framework } from "../framework";
 
 describe("Tour of Heroes - Detail page e2e tests", () => {
-    let detailsPage: DetailsPage;
-    
-    beforeEach(async () => {
-        detailsPage = await runBrowserAndOpenOnDetailsPageWithFirstHero();
-    })
-    
     afterAll(async () => {
         await closeBrowser();
-    })
+    });
 
     it("Hero details id should equals to url id", async () => {
         //Arrange
-
+        let detailsPage: DetailsPage = await runBrowserAndOpenOnDetailsPageWithFirstHero();
+    
         //Act
         let currentUrl = await detailsPage.page.url();
         let urlArray: string[] = currentUrl.split('/');
@@ -28,17 +25,70 @@ describe("Tour of Heroes - Detail page e2e tests", () => {
         expect(heroId).toEqual(urlId);
     });
 
-    it("Hero name can be updated", async () => {
-        //Arrange
+    const initialPages = ['Dashboard', 'Heroes'];
+    initialPages.forEach(initPage => {
+        it(`Save button click - Updates name and navigates user to previous page - ${initPage}`, async () => {
+            //Arrange
+            let page: Page = await openBrowser();
+            let detailsPage: DetailsPage;
+            const newName: string = 'Test';
 
-        try {
-            //Act
+            //Note:Requires to start from initial page before navigation to details in order to remember it
+            let expectedRedirectUrl: string;
+            switch (initPage) {
+                case 'Dashboard':
+                    expectedRedirectUrl = PageUrls.dashboardPage;
+                    let dashboardPage = await framework().pageProvider(page).dashboard().open();
+                    let firstHeroName = await (await dashboardPage.topHeroes.getTopHeroesNames()).filter(name => name)[0];
+                    detailsPage = await dashboardPage.topHeroes.clickHeroName(firstHeroName);
+                    break;
+                case 'Heroes':
+                    expectedRedirectUrl = PageUrls.heroesPage;
+                    let heroesPage = await framework().pageProvider(page).heroes().open();
+                    const heroesList = heroesPage.heroesListFragment;
 
-            //Assert
-        }
-        finally {
+                    let firstHero = await (await heroesList.getHeroesIdNamePairs()).filter(name => name)[0];
+                    detailsPage = await heroesList.selectHeroById(firstHero.id);
+                    break;
+                default:
+                    throw new Error(`Case for init page ${initPage} was not implemented`);
+            }
 
-        }
-    });
-
+            //NOTE: Initial values to restore initial data
+            const initialHeroName: string = await detailsPage.getHeroName();
+            const intialId: string = await detailsPage.getHeroId() as string; 
+            
+            try {
+                
+                //Act
+                await detailsPage.fillNewHeroName(newName);
+                await detailsPage.clickSaveButton();
+                
+                //Assert
+                await page.waitForNavigation({url: expectedRedirectUrl})
+                switch (initPage) {
+                    case 'Dashboard':
+                        const actualName: string = await (await framework()
+                            .pageProvider(page)
+                            .dashboard().topHeroes
+                            .getTopHeroesNames())
+                            .filter(name => name)[0];
+                        expect(actualName).toBe(newName);
+                        break;
+                    case 'Heroes':
+                        const actualHero = await framework()
+                            .pageProvider(page)
+                            .heroes().heroesListFragment
+                            .getFirstHero();
+                        expect(actualHero.name).toEqual(newName);
+                        break;
+                }
+            }
+            finally {
+                await (await detailsPage
+                    .open(intialId))
+                    .fillNameAndClickSaveButton(initialHeroName);
+            }
+        });
+    })
 })

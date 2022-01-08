@@ -11,13 +11,16 @@ const getTestSettings = () => {
     const BaseUrl = getEnv('TOUR_OF_HEROES_BASE_URL');
     const HeadlessBrowser = getEnv('TOUR_OF_HEROES_HEADLESS_BROWSER') === 'true';
     const Browser = getEnv('TOUR_OF_HEROES_BROWSER');
+    const ScreenshotsFolder = getEnv('TOUR_OF_HEROES_SCREENSHOTS_FOLDER');
 
     return {
         BaseUrl,
         HeadlessBrowser,
-        Browser
+        Browser,
+        ScreenshotsFolder
     }
 };
+
 
 class TestEnvironment extends NodeEnvironment {
     async setup() {

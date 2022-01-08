@@ -18,7 +18,7 @@ export class TestBrowser {
 
     public async newPage(): Promise<Page> {
         const page = await this.browserContext.newPage();
-        //page.setDefaultTimeout(parseInt(TestSettings.WaitTimeout));
+        //page.setDefaultTimeout(5000)
         if (page == null) {
           throw new Error('Failed to create new Page');
         }
@@ -29,6 +29,10 @@ export class TestBrowser {
     public async close(): Promise<void> {
       await this.browserContext.close();
       await this.browser.close(); 
+    }
+
+    public getFirstPage(): Page {
+      return this.browserContext.pages()[0];
     }
 
     private get browserContext() {
