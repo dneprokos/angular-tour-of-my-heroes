@@ -22,7 +22,20 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 ## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+<b>Summary:</b> e2e tests were designed with help of Playwight Node.js library (https://playwright.dev/) as API for browser automation and with 'jest-jasmine2' test runner (https://jestjs.io/ru/) and Jasmine (https://jasmine.github.io/) as assertion framework. 
+
+### Start running
+
+1) Make sure .env file contains all expected environment configs
+2) In CMD|Powershell|Linux shell run the following command "npm test"  
+
+### Run allure reports
+
+'allure serve' - direct command runs and opens report
+
+### Script runs all e2e tests and generates and opens allure reports
+
+On Windows in Powershell run script "runTestsAndGenerateReport.ps1"
 
 ## Further help
 
