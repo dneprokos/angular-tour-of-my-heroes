@@ -4,14 +4,6 @@ module.exports = {
     transform: {
         "^.+\\.(ts)$": "ts-jest",
     },
-    // testEnvironmentOptions: {
-        // "jest-playwright": {
-          // //browsers: ["chromium", 'firefox'],
-          // launchOptions: {
-            // headless: false,
-          // }
-        // }
-    // },
     setupFilesAfterEnv: ['./jest.setup.js', "jest-allure/dist/setup"],
     testRunner: 'jest-jasmine2',
     testEnvironment: './test-environment.ts'

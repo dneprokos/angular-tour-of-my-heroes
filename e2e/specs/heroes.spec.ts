@@ -6,10 +6,15 @@ import { DetailsPage } from "../framework/pages/details";
 
 describe("Tour of Heroes - Heroes page e2e tests", () => {
     let heroesPage: HeroesPage;
+    let page: Page;
     
     beforeEach(async () => {
-        let page: Page = await openBrowser();
+        page = await openBrowser();
         heroesPage = await framework().pageProvider(page).heroes().open();
+    })
+
+    afterEach(async () => {
+        await page.close();
     })
     
     afterAll(async () => {

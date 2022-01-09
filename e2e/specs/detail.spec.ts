@@ -1,17 +1,27 @@
 import { PageUrls } from "../framework/constants/page-uri-const";
 import { Page } from "playwright";
 import { DetailsPage } from "../framework/pages/details";
-import { closeBrowser, openBrowser, runBrowserAndOpenOnDetailsPageWithFirstHero } from "../framework/utils/setup-teardown-helper";
+import { closeBrowser, openBrowser, openOnDetailsPageWithFirstHero } from "../framework/utils/setup-teardown-helper";
 import { framework } from "../framework";
 
 describe("Tour of Heroes - Detail page e2e tests", () => {
+    let page: Page;
+
+    beforeEach(async () => {
+        page = await openBrowser();
+    })
+
+    afterEach(async () => {
+        await page.close();
+    })
+
     afterAll(async () => {
         await closeBrowser();
     });
 
     it("Hero details id should equals to url id", async () => {
         //Arrange
-        let detailsPage: DetailsPage = await runBrowserAndOpenOnDetailsPageWithFirstHero();
+        let detailsPage: DetailsPage = await openOnDetailsPageWithFirstHero(page);
     
         //Act
         let currentUrl = await detailsPage.page.url();
@@ -29,7 +39,6 @@ describe("Tour of Heroes - Detail page e2e tests", () => {
     initialPages.forEach(initPage => {
         it(`Save button click - Updates name and navigates user to previous page - ${initPage}`, async () => {
             //Arrange
-            let page: Page = await openBrowser();
             let detailsPage: DetailsPage;
             const newName: string = 'Test';
 

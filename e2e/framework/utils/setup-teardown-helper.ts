@@ -14,8 +14,8 @@ export async function closeBrowser(): Promise<void> {
     await (await TestBrowser.current()).close();
 }
 
-export async function runBrowserAndOpenOnDetailsPageWithFirstHero(): Promise<DetailsPage> {
-    const page: Page = await openBrowser();
+export async function openOnDetailsPageWithFirstHero(page: Page): Promise<DetailsPage> {
+    //const page: Page = await openBrowser();
     let heroesPage: HeroesPage = await pageProdider(page).heroes().open(); 
     let heroes = await heroesPage.heroesListFragment.getHeroesIdNamePairs();
     expect(heroes.length).toBeGreaterThan(0);
@@ -27,3 +27,24 @@ export async function openBrowser(): Promise<Page> {
     return await (await TestBrowser.current()).newPage();
 }
 
+export async function makeScreenshotOnFailure(): Promise<void> {
+    if (IsLastTestFailed) {
+      IsLastTestFailed = false;
+      const screenshotName = FailedTestName.replace(/ /g, '_');
+      console.log(screenshotName);
+      const page = (await TestBrowser.current()).getFirstPage();
+      await page.screenshot({
+        path: `${TestSettings.ScreenshotsFolder}/${screenshotName}.png`, fullPage: true
+      });
+    }
+}
+
+export async function addSpecDoneReporter() {
+    jasmine.getEnv().addReporter({specDone: async result => {
+        if (result.status === 'failed') {
+            IsLastTestFailed = true;
+            FailedTestName = result.fullName;
+            console.log(result);
+        }
+    }});
+}

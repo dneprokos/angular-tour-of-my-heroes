@@ -1,5 +1,7 @@
-const NodeEnvironment = require('jest-environment-node');
+//const JestNodeEnvironment = require('jest-environment-node');
 require('dotenv').config();
+const PlaywrightEnvironment = require('jest-playwright-preset/lib/PlaywrightEnvironment').default
+
 
 const getEnv = (name: string) => {
     const envValue = process.env[name];
@@ -21,11 +23,19 @@ const getTestSettings = () => {
     }
 };
 
+// class TestEnvironment extends JestNodeEnvironment {
+    // async setup() {
+        // await super.setup();
+        // this.global.TestSettings = getTestSettings();
+    // }
+// }
 
-class TestEnvironment extends NodeEnvironment {
+class TestEnvironment extends PlaywrightEnvironment {
     async setup() {
-        await super.setup();
-        this.global.TestSettings = getTestSettings();
+      await super.setup()
+      this.global.TestSettings = getTestSettings();
+      this.global.IsLastTestFailed = false;
+      this.global.FailedTestName = '';
     }
 }
 

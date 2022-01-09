@@ -18,7 +18,6 @@ export class AddHeroFragment extends BaseFragment {
 
     async clickAddHeroButton(): Promise<DetailsPage> {
         await this.page.click(this.addHeroButtonLocator);
-        await waits(this.page).waitForSeconds(5);
         return new DetailsPage(this.page);
     }
 }

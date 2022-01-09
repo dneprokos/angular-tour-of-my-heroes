@@ -44,5 +44,6 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# Allure
+# Test artifacts
 /allure-results
+/test-results
