@@ -4,6 +4,7 @@ import { DetailsPage } from "../pages/details";
 import { HeroesPage } from "../pages/heroes";
 import { TestBrowser } from "./browser-setup";
 import { pageProdider } from '../pages';
+import { expect } from '@playwright/test';
 
 export async function runBrowserAndOpenMainPage(): Promise<DashboardPage> {
     const page: Page = await openBrowser();

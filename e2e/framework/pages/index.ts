@@ -10,3 +10,5 @@ export function pageProdider(page: Page) {
         heroes: () => new HeroesPage(page)
     }
 }
+
+export  { DashboardPage, DetailsPage, HeroesPage }

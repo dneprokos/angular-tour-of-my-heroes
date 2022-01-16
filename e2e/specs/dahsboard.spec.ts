@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { DashboardPage } from '../framework/pages/dashboard';
+import { DashboardPage } from '../framework/pages';
 import { framework } from '../framework';
 
 
