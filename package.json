@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "npx playwright test"
+    "test": "npx playwright test",
+    "test api": "npx playwright test ./specs/api.example.spec.ts"
   },
   "private": true,
   "dependencies": {
