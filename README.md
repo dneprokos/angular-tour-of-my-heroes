@@ -22,7 +22,7 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 ## Running end-to-end tests
 
-<b>Summary:</b> e2e tests were designed with help of Playwight Node.js library (https://playwright.dev/) as API for browser automation and with 'jest-jasmine2' test runner (https://jestjs.io/ru/) and Jasmine (https://jasmine.github.io/) as assertion framework. 
+<b>Summary:</b> e2e tests were designed with help of Playwight Node.js library (https://playwright.dev/) as API for browser automation and with 'playewright test' test runner and assertion framework (https://playwright.dev/docs/intro).
 
 ### Start running
 

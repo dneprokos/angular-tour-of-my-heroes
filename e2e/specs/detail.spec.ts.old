@@ -1,20 +1,35 @@
-import { test, expect } from '@playwright/test';
-import { openOnDetailsPageWithFirstHero } from '../framework/utils/setup-teardown-helper';
-import { DetailsPage } from '../framework/pages';
-import { PageUrls } from '../framework/constants/page-uri-const';
-import { framework } from '../framework';
+import { PageUrls } from "../framework/constants/page-uri-const";
+import { Page } from "playwright";
+import { DetailsPage } from "../framework/pages/details";
+import { closeBrowser, openBrowser, openOnDetailsPageWithFirstHero } from "../framework/utils/setup-teardown-helper";
+import { framework } from "../framework";
 
-test.describe.parallel('Tour of Heroes - Detail page e2e tests', async () => {
-    test("Hero details id should equals to url id", async ({ page }) => {
+describe("Tour of Heroes - Detail page e2e tests", () => {
+    let page: Page;
+
+    beforeEach(async () => {
+        page = await openBrowser();
+    })
+
+    afterEach(async () => {
+        await page.close();
+    })
+
+    afterAll(async () => {
+        await closeBrowser();
+    });
+
+    it("Hero details id should equals to url id", async () => {
         //Arrange
-        const detailsPage: DetailsPage = await openOnDetailsPageWithFirstHero(page);
-
+        let detailsPage: DetailsPage = await openOnDetailsPageWithFirstHero(page);
+    
         //Act
         let currentUrl = await detailsPage.page.url();
         let urlArray: string[] = currentUrl.split('/');
         let urlId = urlArray[urlArray.length - 1];
 
         let heroId: string | undefined = await detailsPage.getHeroId();
+        //Notes: Values can also be converted to numbers in case when we need to compare with APi response
 
         //Assert
         expect(heroId).toEqual(urlId);
@@ -22,14 +37,13 @@ test.describe.parallel('Tour of Heroes - Detail page e2e tests', async () => {
 
     const initialPages = ['Dashboard', 'Heroes'];
     initialPages.forEach(initPage => {
-        test(`Save button click - Updates name and navigates user to previous page - ${initPage}`, async ({page}) => {
+        it(`Save button click - Updates name and navigates user to previous page - ${initPage}`, async () => {
             //Arrange
             let detailsPage: DetailsPage;
             const newName: string = 'Test';
 
             //Note:Requires to start from initial page before navigation to details in order to remember it
             let expectedRedirectUrl: string;
-
             switch (initPage) {
                 case 'Dashboard':
                     expectedRedirectUrl = PageUrls.dashboardPage;
@@ -41,6 +55,7 @@ test.describe.parallel('Tour of Heroes - Detail page e2e tests', async () => {
                     expectedRedirectUrl = PageUrls.heroesPage;
                     let heroesPage = await framework().pageProvider(page).heroes().open();
                     const heroesList = heroesPage.heroesListFragment;
+
                     let firstHero = await (await heroesList.getHeroesIdNamePairs()).filter(name => name)[0];
                     detailsPage = await heroesList.selectHeroById(firstHero.id);
                     break;
@@ -50,13 +65,14 @@ test.describe.parallel('Tour of Heroes - Detail page e2e tests', async () => {
 
             //NOTE: Initial values to restore initial data
             const initialHeroName: string = await detailsPage.getHeroName();
-            const intialId: string = await detailsPage.getHeroId() as string;
-
+            const intialId: string = await detailsPage.getHeroId() as string; 
+            
             try {
+                
                 //Act
                 await detailsPage.fillNewHeroName(newName);
                 await detailsPage.clickSaveButton();
-
+                
                 //Assert
                 await page.waitForNavigation({url: expectedRedirectUrl})
                 switch (initPage) {
@@ -83,6 +99,5 @@ test.describe.parallel('Tour of Heroes - Detail page e2e tests', async () => {
                     .fillNameAndClickSaveButton(initialHeroName);
             }
         });
-    });
-
+    })
 })

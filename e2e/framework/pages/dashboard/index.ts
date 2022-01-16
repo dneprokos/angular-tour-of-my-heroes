@@ -18,7 +18,7 @@ export class DashboardPage extends PageWithNavMenuAndMessages {
 
     async open(): Promise<DashboardPage> {
         await Promise.all([
-            this.navigateUrl(TestSettings.BaseUrl),
+            this.navigateUrl(PageUrls.baseUri),
             this.page.waitForNavigation({url: PageUrls.dashboardPage})
         ]);
         

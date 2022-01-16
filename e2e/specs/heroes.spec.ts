@@ -1,30 +1,16 @@
-import { framework } from "../framework";
-import { HeroesPage } from "../framework/pages/heroes";
-import { Page } from "playwright";
-import { closeBrowser, openBrowser } from "../framework/utils/setup-teardown-helper";
-import { DetailsPage } from "../framework/pages/details";
+import { test, expect } from '@playwright/test';
+import { framework } from '../framework';
+import { DetailsPage, HeroesPage  } from '../framework/pages';
 
-describe("Tour of Heroes - Heroes page e2e tests", () => {
+
+test.describe.parallel('Tour of Heroes - Heroes page e2e tests', async () => {
     let heroesPage: HeroesPage;
-    let page: Page;
-    
-    beforeEach(async () => {
-        page = await openBrowser();
-        heroesPage = await framework().pageProvider(page).heroes().open();
-    })
 
-    afterEach(async () => {
-        await page.close();
-    })
-    
-    afterAll(async () => {
-        await closeBrowser();
-    });
-
-    it("Create user - Should be created", async () => {
+    test('Create user - Should be created', async ({page}) => {
         //Arrange
+        heroesPage = await framework().pageProvider(page).heroes().open();
         const newHeroName = 'Star Lord';
-        
+
         //Act
         await heroesPage.addHeroFragment.fillNewHeroName(newHeroName);
         await heroesPage.addHeroFragment.clickAddHeroButton();
@@ -33,5 +19,5 @@ describe("Tour of Heroes - Heroes page e2e tests", () => {
         const detailPage: DetailsPage = await heroesPage.heroesListFragment.selectHeroByName(newHeroName);
         let actualHeroName = await detailPage.getHeroName();
         expect(actualHeroName).toEqual(newHeroName);
-    })
+    });
 })
