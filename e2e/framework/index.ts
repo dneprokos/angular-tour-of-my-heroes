@@ -1,5 +1,5 @@
 import { Page } from "playwright";
-import { pageProdider } from "./pages";
+import { pageProdider } from "./pages/pages";
 
 export function framework() {
     return {

@@ -13,7 +13,7 @@ const config: PlaywrightTestConfig = {
       headless: false,
       viewport: {width: 2045, height: 960},
       colorScheme: 'dark',
-      screenshot: 'only-on-failure'
+      screenshot: 'only-on-failure',
     },
   };
   export default config;

@@ -1,7 +1,7 @@
 import { Page } from 'playwright';
-import { DashboardPage } from './dashboard';
-import { DetailsPage } from './details';
-import { HeroesPage } from './heroes';
+import { DashboardPage } from './dashboard/dashboard-page';
+import { DetailsPage } from './details/details-page';
+import { HeroesPage } from './heroes/my-heroes-page';
 
 export function pageProdider(page: Page) {
     return {
