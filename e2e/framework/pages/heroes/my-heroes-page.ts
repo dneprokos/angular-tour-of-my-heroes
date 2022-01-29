@@ -14,9 +14,4 @@ export class HeroesPage extends PageWithNavMenuAndMessages {
         this.addHeroFragment = new AddHeroFragment(page);
         this.heroesListFragment = new HeroesList(page);
     }
-
-    // async open(): Promise<HeroesPage> {
-        // await this.navigateUrl(PageUrls.heroesPage); 
-        // return new HeroesPage(this.page);
-    // }
 }

@@ -1,13 +1,12 @@
-import { test, expect } from '@playwright/test';
+import test, {expect} from '../framework/pages/pages';
 import { openOnDetailsPageWithFirstHero } from '../framework/utils/setup-teardown-helper';
 import { DetailsPage } from '../framework/pages/pages';
 import { PageUrls } from '../framework/constants/page-uri-const';
-import { framework } from '../framework';
 import { Page } from 'playwright';
 import { navigateToDashboardPage, navigateToDetailsPage, navigateToMyHeroesPage } from '../framework/utils/quick-url-navigation';
 
 test.describe.parallel('Tour of Heroes - Detail page e2e tests', async () => {
-    test("Hero details id should equals to url id", async ({ page }) => {
+    test("Hero details id should equals to url id", async ({ page  }) => {
         //Arrange
         const detailsPage: DetailsPage = await openOnDetailsPageWithFirstHero(page);
 
@@ -24,7 +23,7 @@ test.describe.parallel('Tour of Heroes - Detail page e2e tests', async () => {
 
     const initialPages = ['Dashboard', 'Heroes'];
     initialPages.forEach(startPageName => {
-        test(`Save button click - Updates name and navigates user to previous page - ${startPageName}`, async ({page}) => {
+        test(`Save button click - Updates name and navigates user to previous page - ${startPageName}`, async ({page, dashboardPage, heroesPage}) => {
             //Arrange
             const newName: string = 'Test';
             const [detailsPage, expectedRedirectUrl] = await navigateDetailsPageFromSpecificPage(startPageName, page);
@@ -42,18 +41,11 @@ test.describe.parallel('Tour of Heroes - Detail page e2e tests', async () => {
                 await page.waitForNavigation({url: expectedRedirectUrl})
                 switch (startPageName) {
                     case 'Dashboard':
-                        const actualName: string = (await framework()
-                            .pageProvider(page)
-                            .dashboard().topHeroes
-                            .getTopHeroesNames())
-                            .filter(name => name)[0];
+                        const actualName: string =  (await dashboardPage.topHeroes.getTopHeroesNames()).filter(name => name)[0];
                         expect(actualName).toBe(newName);
                         break;
                     case 'Heroes':
-                        const actualHero = await framework()
-                            .pageProvider(page)
-                            .heroes().heroesListFragment
-                            .getFirstHero();
+                        const actualHero = await heroesPage.heroesListFragment.getFirstHero();
                         expect(actualHero.name).toEqual(newName);
                         break;
                 }
