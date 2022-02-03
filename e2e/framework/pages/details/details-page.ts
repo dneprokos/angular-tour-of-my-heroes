@@ -11,7 +11,7 @@ export class DetailsPage extends PageWithNavMenuAndMessages {
 
     async getHeroId(): Promise<string | undefined> {
         let allTexts = await (await waits(this.page).waitVisibility('//div[child::span]')).textContent();
-        return allTexts?.split(":")[1].trim();
+        return allTexts?.split(":")[1]?.trim();
     }
 
     async getHeroName(): Promise<string> {
@@ -32,9 +32,7 @@ export class DetailsPage extends PageWithNavMenuAndMessages {
     }
 
     async fillNameAndClickSaveButton(name: string): Promise<void> {
-        await Promise.all([
-            this.fillNewHeroName(name),
-            this.clickSaveButton()
-        ]);
+        await this.fillNewHeroName(name);
+        await this.clickSaveButton();
     }
 }

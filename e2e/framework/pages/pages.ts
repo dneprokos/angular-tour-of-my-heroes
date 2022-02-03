@@ -4,13 +4,13 @@ import { HeroesPage } from './heroes/my-heroes-page';
 import { test as base } from '@playwright/test';
 
 
-type pages = {
+type Pages = {
     dashboardPage: DashboardPage;
     detailsPage: DetailsPage;
     heroesPage: HeroesPage;
 };
 
-export const test = base.extend<pages>({
+export const test = base.extend<Pages>({
     dashboardPage: async ({page}, use) => {
         await use(new DashboardPage(page));
     },

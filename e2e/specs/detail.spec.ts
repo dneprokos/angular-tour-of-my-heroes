@@ -6,7 +6,7 @@ import { Page } from 'playwright';
 import { navigateToDashboardPage, navigateToDetailsPage, navigateToMyHeroesPage } from '../framework/utils/quick-url-navigation';
 
 test.describe.parallel('Tour of Heroes - Detail page e2e tests', async () => {
-    test("Hero details id should equals to url id", async ({ page  }) => {
+    test("Hero details id should equals to url id", async ({ page }) => {
         //Arrange
         const detailsPage: DetailsPage = await openOnDetailsPageWithFirstHero(page);
 

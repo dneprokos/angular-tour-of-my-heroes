@@ -30,7 +30,7 @@ export class HeroesList extends BaseFragment {
         await waits(this.page).waitVisibility(this.heroesIdNameSelector);
 
         let firstElement = await this.page.$(this.heroesIdNameSelector);
-        const text = await firstElement?.textContent() as unknown as string;
+        const text = await firstElement?.textContent() ?? '';
         console.log(text);
         return this.convertStringToHero(text);
     }
