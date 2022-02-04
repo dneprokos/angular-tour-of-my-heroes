@@ -1,4 +1,13 @@
-import { PlaywrightTestConfig, devices } from '@playwright/test';
+import { PlaywrightTestConfig } from '@playwright/test';
+require('dotenv').config();
+
+const getEnv = (name: string) => {
+  const envValue = process.env[name];
+  if (envValue == null) throw new Error(`${name} environment variable is not defined.`);
+  return envValue;
+};
+
+
 
 const config: PlaywrightTestConfig = {
     testMatch: 'e2e/specs/*.spec.ts',
@@ -9,11 +18,28 @@ const config: PlaywrightTestConfig = {
     ],
     retries: 3,
     use: {
-      baseURL: 'http://localhost:4200/',
-      headless: false,
+      baseURL: getEnv('TOUR_OF_HEROES_BASE_URL'),
+      headless: getEnv('TOUR_OF_HEROES_HEADLESS_BROWSER') === 'true',
       viewport: {width: 2045, height: 960},
       colorScheme: 'dark',
-      screenshot: 'only-on-failure'
+      screenshot: 'only-on-failure',
+      // launchOptions: {
+        // slowMo: 1000 
+      // }
     },
+    projects: [
+      {
+        name: "Chrome",
+        use: {
+          browserName: 'chromium'
+        }
+      },
+      {
+        name: "FireFox",
+        use: {
+          browserName: 'firefox'
+        }
+      }
+    ]
   };
   export default config;

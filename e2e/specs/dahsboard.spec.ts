@@ -1,21 +1,21 @@
 import { test, expect } from '@playwright/test';
-import { DashboardPage } from '../framework/pages';
-import { framework } from '../framework';
+import { DashboardPage } from '../framework/pages/pages';
+import { navigateToDashboardPage } from '../framework/utils/quick-url-navigation';
 
 
 test.describe.parallel('Playwright test runner fixture examples', () => {
     let dashboardPage: DashboardPage;
 
     test.beforeEach(async ({ page }) => {
-        dashboardPage = await framework().pageProvider(page).dashboard().open();
+        dashboardPage = await navigateToDashboardPage(page);
     })
 
     test('Verify top heroes contains expected heroes', async () => {
         //Arrange
-        let expectedHeroes = ['Captain America', 'Iron Man', 'Thor', 'Hulk']; //TODO: Will be good to get it from API
+        const expectedHeroes = ['Captain America', 'Iron Man', 'Thor', 'Hulk']; //TODO: Will be good to get it from API or modify request when backend is available https://playwright.dev/docs/network#variations-1 
         
         //Act
-        let heroes = await dashboardPage.topHeroes.getTopHeroesNames();
+        const heroes = await dashboardPage.topHeroes.getTopHeroesNames();
 
         //Assert
         expect(heroes).toStrictEqual(expectedHeroes);
@@ -23,11 +23,11 @@ test.describe.parallel('Playwright test runner fixture examples', () => {
 
     test('Search should show expected results', async () => {
         //Arrange
-        let expectedHeroes = ['Iron Man', 'Ant-Man', 'Spider-Man', 'Temp']; //TODO: Will be good to get it from API
+        const expectedHeroes = ['Iron Man', 'Ant-Man', 'Spider-Man', 'Temp']; //TODO: Will be good to get it from API or modify request when backend is available https://playwright.dev/docs/network#variations-1 
         
-        //Act
-        await dashboardPage.heroSearch.enterTextToSeachField('man');
-        let foundHeroes = await dashboardPage.heroSearch.waitAndReturnSearchResults();
+        //Act                                   
+        const searchFragment = await dashboardPage.heroSearch.enterTextToSeachField('man');
+        const foundHeroes = await searchFragment.waitAndReturnSearchResults();
         
         //Assert
         expect(foundHeroes).toStrictEqual(expectedHeroes); //NOTE: This test will fail. Created to test failure cases

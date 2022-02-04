@@ -2,10 +2,10 @@ import { BaseFragment } from "../../../../libs/base.fragment";
 import { Page } from "playwright";
 import { waits } from "../../../../libs/helpers/waits";
 import { PageUrls } from "../../../../framework/constants/page-uri-const";
-import { DetailsPage } from "../../details";
+import { DetailsPage } from "../../details/details-page";
 
 export class TopHeroesFragment extends BaseFragment {
-    topHeroesLocator: string = '.heroes-menu>a';
+    topHeroesLocator: string = '.heroes-menu > a';
 
     constructor(page: Page) {
         super(page);
@@ -16,7 +16,7 @@ export class TopHeroesFragment extends BaseFragment {
         return await this.page.locator(this.topHeroesLocator).allInnerTexts();
     }
 
-    async clickHeroName(name: string) {
+    async clickHeroName(name: string): Promise<DetailsPage> {
         const baseSelector = `//div/a[contains(text(), '${name}')]`;
         const href = await this.page.getAttribute(baseSelector, 'href');
         const heroId =  href?.split('/')[2] as string;

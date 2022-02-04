@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { framework } from '../framework';
-import { DetailsPage, HeroesPage  } from '../framework/pages';
+import { navigateToMyHeroesPage } from '../framework/utils/quick-url-navigation';
+import { DetailsPage, HeroesPage  } from '../framework/pages/pages';
 
 
 test.describe.parallel('Tour of Heroes - Heroes page e2e tests', async () => {
@@ -8,7 +8,7 @@ test.describe.parallel('Tour of Heroes - Heroes page e2e tests', async () => {
 
     test('Create user - Should be created', async ({page}) => {
         //Arrange
-        heroesPage = await framework().pageProvider(page).heroes().open();
+        heroesPage = await navigateToMyHeroesPage(page);
         const newHeroName = 'Star Lord';
 
         //Act
