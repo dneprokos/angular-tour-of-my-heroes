@@ -10,7 +10,7 @@ export class DetailsPage extends PageWithNavMenuAndMessages {
     }
 
     async getHeroId(): Promise<string | undefined> {
-        let allTexts = await (await waits(this.page).waitVisibility('//div[child::span]')).textContent();
+        const allTexts = await (await waits(this.page).waitVisibility('//div[child::span]')).textContent();
         return allTexts?.split(":")[1]?.trim();
     }
 

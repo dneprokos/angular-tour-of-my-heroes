@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "npx playwright test",
-    "test api": "npx playwright test ./specs/api.example.spec.ts"
+    "test api": "npx playwright test ./specs/api.example.spec.ts",
+    "lint": "eslint . --ext .ts"
   },
   "private": true,
   "dependencies": {
@@ -31,7 +32,10 @@
     "@angular/compiler-cli": "~12.2.0",
     "@playwright/test": "^1.17.2",
     "@types/jest": "^27.0.3",
+    "@typescript-eslint/eslint-plugin": "^5.11.0",
+    "@typescript-eslint/parser": "^5.11.0",
     "allure-playwright": "^2.0.0-beta.14",
+    "eslint": "^8.8.0",
     "jasmine-core": "~3.8.0",
     "jest": "^27.4.5",
     "jest-allure": "^0.1.3",

@@ -3,7 +3,7 @@ import { Page } from "playwright";
 import { waits } from "../../../../libs/helpers/waits";
 
 export class HeroSearchFragment extends BaseFragment {
-    searchResultsListSelector: string = '.search-result > li h4'
+    searchResultsListSelector = '.search-result > li h4'
     
     constructor(page: Page) {
         super(page);

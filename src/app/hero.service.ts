@@ -3,7 +3,7 @@ import { Hero } from './models/hero';
 import { Observable, of } from 'rxjs';
 import { MessageService } from './message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,7 @@ export class HeroService {
 getHeroes(): Observable<Hero[]> {
   return this.http.get<Hero[]>(this.heroesUrl)
   .pipe(
-    tap(_ => this.log('fetched heroes')),
+    tap((): void => this.log('fetched heroes')),
     catchError(this.handleError<Hero[]>('getHeroes', []))
   );
 }
@@ -30,16 +30,16 @@ getHeroes(): Observable<Hero[]> {
 getHero(id: number): Observable<Hero> {
   const url = `${this.heroesUrl}/${id}`;
   return this.http.get<Hero>(url).pipe(
-    tap(_ => this.log(`fetched hero id=${id}`)),
+    tap((): void => this.log(`fetched hero id=${id}`)),
     catchError(this.handleError<Hero>(`getHero id=${id}`))
   );
 }
 
 /** PUT: update the hero on the server */
-updateHero(hero: Hero): Observable<any> {
+updateHero(hero: Hero): Observable<unknown> {
   return this.http.put(this.heroesUrl, hero, this.httpOptions).pipe(
-    tap(_ => this.log(`updated hero id=${hero.id}`)),
-    catchError(this.handleError<any>('updateHero'))
+    tap((): void => this.log(`updated hero id=${hero.id}`)),
+    catchError(this.handleError<unknown>('updateHero'))
   );
 }
 
@@ -56,7 +56,7 @@ deleteHero(id: number): Observable<Hero> {
   const url = `${this.heroesUrl}/${id}`;
 
   return this.http.delete<Hero>(url, this.httpOptions).pipe(
-    tap(_ => this.log(`deleted hero id=${id}`)),
+    tap((): void => this.log(`deleted hero id=${id}`)),
     catchError(this.handleError<Hero>('deleteHero'))
   );
 }
@@ -83,6 +83,7 @@ private log(message: string) {
   this.messageService.add(`HeroService: ${message}`);
 }
 private handleError<T>(operation = 'operation', result?: T) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (error: any): Observable<T> => {
   
     // TODO: send the error to remote logging infrastructure

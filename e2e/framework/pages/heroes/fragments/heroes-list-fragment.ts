@@ -5,8 +5,8 @@ import { Hero } from "../../../models/hero";
 import { DetailsPage } from "../../details/details-page";
 
 export class HeroesList extends BaseFragment {
-    private heroesListSelector: string = "//ul[@class='heroes']/li";
-    private heroesIdNameSelector: string = `${this.heroesListSelector}/a`;
+    private heroesListSelector = "//ul[@class='heroes']/li";
+    private heroesIdNameSelector = `${this.heroesListSelector}/a`;
 
     constructor(page: Page) {
         super(page);
@@ -14,7 +14,7 @@ export class HeroesList extends BaseFragment {
 
     async getHeroesIdNamePairs(): Promise<Hero[]> {
         await waits(this.page).waitVisibility(this.heroesIdNameSelector)
-        let allLinesOfText = await this.page.locator(this.heroesIdNameSelector).allInnerTexts();
+        const allLinesOfText = await this.page.locator(this.heroesIdNameSelector).allInnerTexts();
         if (allLinesOfText.length === 0) {
             throw new Error('Heroes count should not be null');
         }
@@ -24,12 +24,12 @@ export class HeroesList extends BaseFragment {
     async selectHeroById(heroId: number) : Promise<DetailsPage> {
         await this.page.locator(`text=${heroId}`).click();
         return new DetailsPage(this.page);
-    };
+    }
 
     async getFirstHero(): Promise<Hero> {
         await waits(this.page).waitVisibility(this.heroesIdNameSelector);
 
-        let firstElement = await this.page.$(this.heroesIdNameSelector);
+        const firstElement = await this.page.$(this.heroesIdNameSelector);
         const text = await firstElement?.textContent() ?? '';
         console.log(text);
         return this.convertStringToHero(text);
@@ -41,12 +41,12 @@ export class HeroesList extends BaseFragment {
     }
 
     private convertStringToHero(value:string):Hero {
-        let splitValues = value.split(' ');
+        const splitValues = value.split(' ');
         const id = parseInt(splitValues[0]);
-        let slicedValues = splitValues.slice(1, splitValues.length)
+        const slicedValues = splitValues.slice(1, splitValues.length)
         let name = '';
         slicedValues.forEach(part => name += ` ${part}`);
-        let hero: Hero = {id: id, name: name.trim()}
+        const hero: Hero = {id: id, name: name.trim()}
         return hero;
     }
     
