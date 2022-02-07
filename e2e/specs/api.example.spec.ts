@@ -8,11 +8,11 @@ test.describe.parallel('REST API requests test examples', () => {
     test('Get Country info by name', async ({request}) => {
         
         //Act
-        let getResponse = await request.get(`${BASE_URL}name/usa`, { headers: HEADERS });
+        const getResponse = await request.get(`${BASE_URL}name/usa`, { headers: HEADERS });
 
         //Assert
         expect(getResponse.ok()).toBeTruthy();
-        let responseBody: Country [] = await getResponse.json();
+        const responseBody: Country [] = await getResponse.json();
         console.log(responseBody);
         expect(responseBody.length).toEqual(1);
         expect(responseBody[0].name).toEqual('United States of America');
@@ -21,11 +21,11 @@ test.describe.parallel('REST API requests test examples', () => {
     test('Get Capital info by name', async ({request}) => {
     
         //Act
-        let getResponse = await request.get(`${BASE_URL}capital/kyiv`, { headers: HEADERS });
+        const getResponse = await request.get(`${BASE_URL}capital/kyiv`, { headers: HEADERS });
         
         //Assert
         expect(getResponse.ok()).toBeTruthy();
-        let responseBody = await getResponse.json();
+        const responseBody = await getResponse.json();
         console.log(responseBody);
     });
 })

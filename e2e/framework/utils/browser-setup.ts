@@ -6,8 +6,6 @@ export class TestBrowser {
     private _browser: ChromiumBrowser | FirefoxBrowser | undefined;
     private _browserContext: BrowserContext | undefined;
 
-    private constructor() {} 
-
     public static async current(): Promise<TestBrowser> {
         if (!TestBrowser.instance) {
           TestBrowser.instance = new TestBrowser();
@@ -46,7 +44,7 @@ export class TestBrowser {
     }
 
     private async setup(): Promise<void> {
-        let configBrowser = TestSettings.Browser;
+        const configBrowser = TestSettings.Browser;
 
         switch (configBrowser) {
           case SupportedBrowsers.Chrome:

@@ -17,7 +17,7 @@ test.describe.parallel('Tour of Heroes - Heroes page e2e tests', async () => {
 
         //Assert
         const detailPage: DetailsPage = await heroesPage.heroesListFragment.selectHeroByName(newHeroName);
-        let actualHeroName = await detailPage.getHeroName();
+        const actualHeroName = await detailPage.getHeroName();
         expect(actualHeroName).toEqual(newHeroName);
     });
 })

@@ -17,10 +17,10 @@ export async function closeBrowser(): Promise<void> {
 
 export async function openOnDetailsPageWithFirstHero(page: Page): Promise<DetailsPage> {
     //const page: Page = await openBrowser();
-    let heroesPage: HeroesPage = await navigateToMyHeroesPage(page); 
-    let heroes = await heroesPage.heroesListFragment.getHeroesIdNamePairs();
+    const heroesPage: HeroesPage = await navigateToMyHeroesPage(page); 
+    const heroes = await heroesPage.heroesListFragment.getHeroesIdNamePairs();
     expect(heroes.length).toBeGreaterThan(0);
-    let firstHero = heroes[0];
+    const firstHero = heroes[0];
     return await navigateToDetailsPage(page, firstHero.id);
 }
 
@@ -38,14 +38,4 @@ export async function makeScreenshotOnFailure(): Promise<void> {
         path: `${TestSettings.ScreenshotsFolder}/${screenshotName}.png`, fullPage: true
       });
     }
-}
-
-export async function addSpecDoneReporter() {
-    jasmine.getEnv().addReporter({specDone: async result => {
-        if (result.status === 'failed') {
-            IsLastTestFailed = true;
-            FailedTestName = result.fullName;
-            console.log(result);
-        }
-    }});
 }

@@ -1,4 +1,5 @@
 import { PlaywrightTestConfig } from '@playwright/test';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
 
 const getEnv = (name: string) => {

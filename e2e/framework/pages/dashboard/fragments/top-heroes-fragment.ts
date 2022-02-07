@@ -5,7 +5,7 @@ import { PageUrls } from "../../../../framework/constants/page-uri-const";
 import { DetailsPage } from "../../details/details-page";
 
 export class TopHeroesFragment extends BaseFragment {
-    topHeroesLocator: string = '.heroes-menu > a';
+    topHeroesLocator = '.heroes-menu > a';
 
     constructor(page: Page) {
         super(page);
